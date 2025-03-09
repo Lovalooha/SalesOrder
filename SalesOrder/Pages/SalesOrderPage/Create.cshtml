@@ -1,0 +1,83 @@
+﻿@page
+@model SalesOrder.Pages.SalesOrderPage.CreateModel
+@{
+    ViewData["Title"] = "ADD NEW - ";
+}
+
+<form method="post">
+    <div class="container-fluid">
+        <div class="card p-4" style="background-color: skyblue;">
+            <h5>Sales Order Information</h5>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="salesOrderNo">Sales Order Number *</label>
+                    <input class="form-control" asp-for="SaveOrder.OrderNo">
+                    <span asp-validation-for="SaveOrder.OrderNo" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 form-group">
+                    <label for="customer">Customer</label>
+                    <select class="form-control" asp-for="SaveOrder.CustomerId" id="customer">
+                        <option value="">Select One</option>
+                        @foreach (var customer in Model.customerList)
+                        {
+                            <option value="@customer.COM_CUSTOMER_ID">@customer.CUSTOMER_NAME</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="orderDate">Order Date *</label>
+                    <input class="form-control" type="date" id="orderDate" value="@DateTime.Now" asp-for="SaveOrder.OrderDate">
+                    <span asp-validation-for="SaveOrder.OrderDate" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 form-group">
+                    <label for="address">Address</label>
+                    <textarea class="form-control" rows="3" id="address" placeholder="Input Here" asp-for="SaveOrder.Address"></textarea>
+                    <span asp-validation-for="SaveOrder.Address" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card p-4 mt-4" style="background-color: skyblue;">
+            <h5>Detail Item Information</h5>
+            <div class="add-item-wrapper">
+                <button class="btn mb-2" type="button" id="addItem">Add Item</button>
+            </div>
+            <table class="table table-striped" id="itemsTable">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Action</th>
+                        <th>Item Name</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Table rows will be added dynamically here -->
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-between mt-4">
+                <div>
+                    <span>Total Items: <span id="totalItems">0</span></span><br>
+                    <span>Total Amount: <span id="totalAmount">0,00</span></span>
+                </div>             
+            </div>
+        </div>
+    </div>
+
+    <div id="btnSaveClose">
+        <button class="btn btn-success" id="saveOrder">Save</button>
+        <a class="btn btn-primary" asp-page="/SalesOrderPage/Index" role="button">Close</a>
+    </div>
+
+</form>
+
+
+<script src="~/js/CreatePage.js"></script>

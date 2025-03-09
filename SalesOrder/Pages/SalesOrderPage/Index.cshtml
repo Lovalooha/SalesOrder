@@ -1,0 +1,62 @@
+﻿@page
+@model SalesOrder.Pages.SalesOrderPage.IndexModel
+@{
+}
+<div class="card p-4" style="background-color: skyblue;">
+    <div class="d-flex justify-content-between">
+        <div class="form-group">
+            <label for="keywords" style="color: #1e3c72;">Keywords</label>
+            <input type="text" id="keywords" class="form-control" placeholder="Input here">
+        </div>
+
+        <div class="form-group">
+            <label for="orderDate" style="color: #1e3c72;">Order Date</label>
+            <input type="date" id="orderDate" class="form-control">
+        </div>
+
+        <div class="form-group align-self-end">
+            <button class="btn btn-primary mt-4" id="searchButton">Search</button>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-start align-items-center mt-4">
+    <a class="btn btn-danger buttonNewData" style="background-color: maroon;" asp-page="/SalesOrderPage/Create">Add New Data</a>
+    <a class="btn btn-primary" asp-page-handler="ExportToExcel" title="Export To Excel">
+        <i class="fa fa-file-excel"></i> Export To Excel
+    </a>
+</div>
+
+<table class="table table-striped mt-4">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Action</th>
+            <th>Sales Order</th>
+            <th>Order Date</th>
+            <th>Customer</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var order in Model.orderList)
+        {
+            <tr>
+                <td style ="text-align: center;">@(Model.orderList.IndexOf(order) + 1)</td>
+                <td style="text-align: center; white-space: nowrap">
+                    <a class="btn btn-primary btn-sm" asp-page="/SalesOrderPage/Edit" asp-route-id="@order.SO_ORDER_ID">
+                        <i class="fas fa-edit"></i> 
+                    </a>
+                    <a class="btn btn-danger btn-sm" asp-page="/SalesOrderPage/Delete" asp-route-id="@order.SO_ORDER_ID">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+                <td style="text-align: center;">@order.ORDER_NO</td>
+                <td style="text-align: center;">@order.ORDER_DATE.ToString("dd/MM/yyyy")</td>
+                <td style="text-align: center;">@order.CUSTOMER_NAME</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="~/js/SalesOrder.js"></script>
